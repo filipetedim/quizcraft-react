@@ -1,30 +1,22 @@
-import React from "react";
-import { observer } from "mobx-react";
-import { withStyles } from "@material-ui/core/styles";
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemText from "@material-ui/core/ListItemText";
-import Checkbox from "@material-ui/core/Checkbox";
-import ExpandLess from "@material-ui/icons/ExpandLess";
-import ExpandMore from "@material-ui/icons/ExpandMore";
-import Collapse from "@material-ui/core/Collapse";
+import React from 'react';
+import { observer } from 'mobx-react';
+import { withStyles } from '@material-ui/core/styles';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
+import Checkbox from '@material-ui/core/Checkbox';
+import ExpandLess from '@material-ui/icons/ExpandLess';
+import ExpandMore from '@material-ui/icons/ExpandMore';
+import Collapse from '@material-ui/core/Collapse';
 
 const styles = {
   checkbox: {
-    padding: 0
-  }
+    padding: 0,
+  },
 };
 
 const FilterList = props => {
-  const {
-    classes,
-    type,
-    data,
-    handleToggle,
-    handleCollapse,
-    open,
-    state
-  } = props;
+  const { classes, type, data, handleToggle, handleCollapse, open, state } = props;
   return (
     <List>
       <ListItem button onClick={handleCollapse(type)}>

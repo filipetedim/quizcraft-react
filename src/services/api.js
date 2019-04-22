@@ -1,8 +1,8 @@
-import Cookie from "js-cookie";
+import Cookie from 'js-cookie';
 
 // Utils
-import Config from "../utils/config";
-import History from "../utils/history";
+import Config from '../utils/config';
+import History from '../utils/history';
 
 /**
  * TODO: Requires more validation?
@@ -13,12 +13,12 @@ async function checkStatus(response) {
   }
 
   if (response.status === 401) {
-    History.push("/unauthorized");
+    History.push('/unauthorized');
     return Promise.reject();
   }
 
   if (response.status >= 500 && response.status < 500) {
-    console.error("API Error:", response);
+    console.error('API Error:', response);
   }
 
   // Force return error
@@ -34,39 +34,39 @@ async function checkStatus(response) {
 async function parseJSON(response) {
   return response.json().catch(error => {
     console.warn(`API Response wasn't JSON serializable:`, error);
-    throw new Error("API Response was not JSON serializable.");
+    throw new Error('API Response was not JSON serializable.');
   });
 }
 
 /**
  * Creates the AJAX request, does some parsing and validation.
  */
-async function createRequest({ method = "GET", endpoint = "", data = null }) {
+async function createRequest({ method = 'GET', endpoint = '', data = null }) {
   const url = `${Config.API_URL}/${endpoint}`;
   const params = {
     method,
     headers: {
-      "Content-Type": "application/json",
-      "x-access-token": Cookie.get("qc-token")
+      'Content-Type': 'application/json',
+      'x-access-token': Cookie.get('qc-token'),
     },
-    mode: "cors"
+    mode: 'cors',
   };
 
   if (data) {
     params.body = JSON.stringify(data);
   }
 
-  if (!Cookie.get("qc-token")) {
+  if (!Cookie.get('qc-token')) {
     return Promise.reject();
   }
 
   return fetch(url, params);
 }
 
-async function createOutsiderRequest({ method = "GET", url = "" }) {
+async function createOutsiderRequest({ method = 'GET', url = '' }) {
   const params = {
     method,
-    mode: "cors"
+    mode: 'cors',
   };
 
   return fetch(url, params);

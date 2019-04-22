@@ -1,12 +1,12 @@
-import React from "react";
-import { Route, Switch } from "react-router-dom";
+import React from 'react';
+import { Route, Switch } from 'react-router-dom';
 
 // Common Routes
-import Questions from "./screens/Questions";
-import Auth from "./screens/Auth";
+import Questions from './screens/Questions';
+import Auth from './screens/Auth';
 
 // Auth Components
-import AuthenticatedRoute from "./components/AuthenticatedRoute";
+import AuthenticatedRoute from './components/AuthenticatedRoute';
 
 export default () => (
   <Switch>

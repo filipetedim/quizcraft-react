@@ -1,40 +1,40 @@
-import React, { Component } from "react";
-import { observer } from "mobx-react";
-import { withStyles } from "@material-ui/core/styles";
-import TextField from "@material-ui/core/TextField";
-import Button from "@material-ui/core/Button";
-import Grid from "@material-ui/core/Grid";
-import Chip from "@material-ui/core/Chip";
-import Cancel from "@material-ui/icons/Cancel";
-import Typography from "@material-ui/core/Typography";
+import React, { Component } from 'react';
+import { observer } from 'mobx-react';
+import { withStyles } from '@material-ui/core/styles';
+import TextField from '@material-ui/core/TextField';
+import Button from '@material-ui/core/Button';
+import Grid from '@material-ui/core/Grid';
+import Chip from '@material-ui/core/Chip';
+import Cancel from '@material-ui/icons/Cancel';
+import Typography from '@material-ui/core/Typography';
 
 // Components
-import FilterList from "../components/FilterList";
+import FilterList from '../components/FilterList';
 
 // Stores
-import FilterStore from "../stores/filterStore";
+import FilterStore from '../stores/filterStore';
 
 // Utils
-import DataTypes from "../utils/dataTypes";
+import DataTypes from '../utils/dataTypes';
 
 const styles = () => ({
   root: {
-    width: "100%"
+    width: '100%',
   },
   search: {
-    padding: "20px 5px"
+    padding: '20px 5px',
   },
   chip: {
     height: 22,
     marginRight: 3,
-    marginBottom: 3
+    marginBottom: 3,
   },
   cancelIcon: {
-    height: 22
+    height: 22,
   },
   filters: {
-    padding: 10
-  }
+    padding: 10,
+  },
 });
 
 class FilterMenu extends Component {
@@ -43,14 +43,12 @@ class FilterMenu extends Component {
   /**
    * Handles the checkbox toggle
    */
-  handleToggle = (type, value) => () =>
-    (FilterStore[type][value] = !FilterStore[type][value]);
+  handleToggle = (type, value) => () => (FilterStore[type][value] = !FilterStore[type][value]);
 
   /**
    * Handles the collapse of lists
    */
-  handleCollapse = value => () =>
-    this.setState({ [value + "Open"]: !this.state[value + "Open"] });
+  handleCollapse = value => () => this.setState({ [value + 'Open']: !this.state[value + 'Open'] });
 
   /**
    * Handles the search
@@ -62,8 +60,8 @@ class FilterMenu extends Component {
    */
   handleResetFilters = () => {
     FilterStore.resetFilters();
-    ["expansions", "difficulties", "types", "categories"].forEach(type =>
-      this.setState({ [type + "Open"]: false })
+    ['expansions', 'difficulties', 'types', 'categories'].forEach(type =>
+      this.setState({ [type + 'Open']: false })
     );
   };
 
@@ -102,7 +100,7 @@ class FilterMenu extends Component {
         </div>
         <div className={classes.filters}>
           <Typography>Active filters</Typography>
-          {["expansions", "difficulties", "types", "categories"].map(type =>
+          {['expansions', 'difficulties', 'types', 'categories'].map(type =>
             DataTypes[type]
               .filter(item => FilterStore[type][item.id])
               .map(item => (

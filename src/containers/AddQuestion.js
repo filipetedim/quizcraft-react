@@ -1,65 +1,65 @@
-import React, { Component } from "react";
-import { withStyles } from "@material-ui/core/styles";
-import Card from "@material-ui/core/Card";
-import CardHeader from "@material-ui/core/CardHeader";
-import TextField from "@material-ui/core/TextField";
-import CardContent from "@material-ui/core/CardContent";
-import IconButton from "@material-ui/core/IconButton";
-import Button from "@material-ui/core/Button";
-import Close from "@material-ui/icons/Close";
-import LinearProgress from "@material-ui/core/LinearProgress";
-import Grid from "@material-ui/core/Grid";
-import MenuItem from "@material-ui/core/MenuItem";
+import React, { Component } from 'react';
+import { withStyles } from '@material-ui/core/styles';
+import Card from '@material-ui/core/Card';
+import CardHeader from '@material-ui/core/CardHeader';
+import TextField from '@material-ui/core/TextField';
+import CardContent from '@material-ui/core/CardContent';
+import IconButton from '@material-ui/core/IconButton';
+import Button from '@material-ui/core/Button';
+import Close from '@material-ui/icons/Close';
+import LinearProgress from '@material-ui/core/LinearProgress';
+import Grid from '@material-ui/core/Grid';
+import MenuItem from '@material-ui/core/MenuItem';
 
 // Components
-import LoadingError from "../components/LoadingError";
+import LoadingError from '../components/LoadingError';
 
 // Services
-import QuestionService from "../services/questionService";
+import QuestionService from '../services/questionService';
 
 // Stores
-import FilterStore from "../stores/filterStore";
+import FilterStore from '../stores/filterStore';
 
 // Utils
-import History from "../utils/history";
-import DataTypes from "../utils/dataTypes";
-import Config from "../utils/config";
+import History from '../utils/history';
+import DataTypes from '../utils/dataTypes';
+import Config from '../utils/config';
 
 const styles = {
   root: {
-    width: "100%",
+    width: '100%',
     maxWidth: 800,
-    marginBottom: 20
+    marginBottom: 20,
   },
   header: {
-    paddingBottom: 0
+    paddingBottom: 0,
   },
   input: {
-    marginBottom: 15
+    marginBottom: 15,
   },
   extraMargin: {
-    marginBottom: 25
-  }
+    marginBottom: 25,
+  },
 };
 
 class AddQuestion extends Component {
   state = {
     loading: false,
     error: [],
-    question: "",
-    answer: "",
+    question: '',
+    answer: '',
     wrong: [],
     expansion: 0,
     difficulty: 0,
     type: 0,
     category: 24,
-    wrong0: "",
-    wrong1: "",
-    wrong2: "",
-    wrong3: "",
-    wrong4: "",
-    wrong5: "",
-    wrong6: ""
+    wrong0: '',
+    wrong1: '',
+    wrong2: '',
+    wrong3: '',
+    wrong4: '',
+    wrong5: '',
+    wrong6: '',
   };
 
   /**
@@ -67,25 +67,9 @@ class AddQuestion extends Component {
    */
   addQuestion = () => {
     this.setState({ loading: true });
-    const {
-      expansion,
-      difficulty,
-      type,
-      category,
-      question,
-      answer,
-      wrong
-    } = this.state;
+    const { expansion, difficulty, type, category, question, answer, wrong } = this.state;
 
-    [
-      "wrong0",
-      "wrong1",
-      "wrong2",
-      "wrong3",
-      "wrong4",
-      "wrong5",
-      "wrong6"
-    ].forEach(item => {
+    ['wrong0', 'wrong1', 'wrong2', 'wrong3', 'wrong4', 'wrong5', 'wrong6'].forEach(item => {
       if (this.state[item] && this.state[item].trim()) {
         wrong.push(item);
       }
@@ -98,11 +82,11 @@ class AddQuestion extends Component {
       category,
       question,
       answer,
-      wrong
+      wrong,
     })
       .then(() => {
         setTimeout(() => {
-          History.push("/");
+          History.push('/');
           FilterStore.showAddQuestion = false;
         }, Config.SPINNER_TIME);
       })
@@ -111,7 +95,7 @@ class AddQuestion extends Component {
           this.setState({
             loading: false,
             error: error.body.validationErrors,
-            wrong: []
+            wrong: [],
           });
         }, Config.SPINNER_TIME);
       });
@@ -139,7 +123,7 @@ class AddQuestion extends Component {
       wrong3,
       wrong4,
       wrong5,
-      wrong6
+      wrong6,
     } = this.state;
 
     return (
@@ -163,7 +147,7 @@ class AddQuestion extends Component {
                 label="Expansion"
                 className={classes.input}
                 value={expansion}
-                onChange={this.handleChange("expansion")}
+                onChange={this.handleChange('expansion')}
                 fullWidth
               >
                 {DataTypes.expansions.map(expansion => (
@@ -178,7 +162,7 @@ class AddQuestion extends Component {
                 label="Difficulty"
                 className={classes.input}
                 value={difficulty}
-                onChange={this.handleChange("difficulty")}
+                onChange={this.handleChange('difficulty')}
                 fullWidth
               >
                 {DataTypes.difficulties.map(difficulty => (
@@ -195,7 +179,7 @@ class AddQuestion extends Component {
                 label="Question Type"
                 className={classes.input}
                 value={type}
-                onChange={this.handleChange("type")}
+                onChange={this.handleChange('type')}
                 fullWidth
               >
                 {DataTypes.types.map(type => (
@@ -210,7 +194,7 @@ class AddQuestion extends Component {
                 label="Category"
                 className={classes.input}
                 value={category}
-                onChange={this.handleChange("category")}
+                onChange={this.handleChange('category')}
                 fullWidth
               >
                 {DataTypes.categories.map(category => (
@@ -228,7 +212,7 @@ class AddQuestion extends Component {
             className={classes.input}
             label="Question?"
             value={question}
-            onChange={this.handleChange("question")}
+            onChange={this.handleChange('question')}
             fullWidth
           />
 
@@ -240,7 +224,7 @@ class AddQuestion extends Component {
                 className={classes.input}
                 label="Correct answer"
                 value={answer}
-                onChange={this.handleChange("answer")}
+                onChange={this.handleChange('answer')}
                 fullWidth
               />
               <TextField
@@ -248,7 +232,7 @@ class AddQuestion extends Component {
                 className={classes.input}
                 label="Wrong answer 1"
                 value={wrong0}
-                onChange={this.handleChange("wrong0")}
+                onChange={this.handleChange('wrong0')}
                 fullWidth
               />
               <TextField
@@ -256,7 +240,7 @@ class AddQuestion extends Component {
                 className={classes.input}
                 label="Wrong answer 2"
                 value={wrong1}
-                onChange={this.handleChange("wrong1")}
+                onChange={this.handleChange('wrong1')}
                 fullWidth
               />
               <TextField
@@ -264,7 +248,7 @@ class AddQuestion extends Component {
                 className={classes.input}
                 label="Wrong answer 3"
                 value={wrong2}
-                onChange={this.handleChange("wrong2")}
+                onChange={this.handleChange('wrong2')}
                 fullWidth
               />
             </Grid>
@@ -274,7 +258,7 @@ class AddQuestion extends Component {
                 className={classes.input}
                 label="Wrong answer 4 (optional)"
                 value={wrong3}
-                onChange={this.handleChange("wrong3")}
+                onChange={this.handleChange('wrong3')}
                 fullWidth
               />
               <TextField
@@ -282,7 +266,7 @@ class AddQuestion extends Component {
                 className={classes.input}
                 label="Wrong answer 5 (optional)"
                 value={wrong4}
-                onChange={this.handleChange("wrong4")}
+                onChange={this.handleChange('wrong4')}
                 fullWidth
               />
               <TextField
@@ -290,7 +274,7 @@ class AddQuestion extends Component {
                 className={classes.input}
                 label="Wrong answer 6 (optional)"
                 value={wrong5}
-                onChange={this.handleChange("wrong5")}
+                onChange={this.handleChange('wrong5')}
                 fullWidth
               />
               <TextField
@@ -298,20 +282,15 @@ class AddQuestion extends Component {
                 className={classes.input}
                 label="Wrong answer 7 (optional)"
                 value={wrong6}
-                onChange={this.handleChange("wrong6")}
+                onChange={this.handleChange('wrong6')}
                 fullWidth
               />
             </Grid>
           </Grid>
-          <Button
-            color="primary"
-            variant="contained"
-            onClick={this.addQuestion}
-          >
+          <Button color="primary" variant="contained" onClick={this.addQuestion}>
             Add new question
           </Button>
-          {error &&
-            error.map((item, i) => <LoadingError key={i} message={item.msg} />)}
+          {error && error.map((item, i) => <LoadingError key={i} message={item.msg} />)}
         </CardContent>
         {loading && <LinearProgress />}
       </Card>
