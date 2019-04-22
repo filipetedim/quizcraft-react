@@ -6,9 +6,13 @@ import Grid from '@material-ui/core/Grid';
 // Containers
 import FilterMenu from '../containers/FilterMenu';
 import EditQuestion from '../containers/EditQuestion';
+import AddQuestion from '../containers/AddQuestion';
 
 // Components
 import Header from '../components/Header';
+
+// Stores
+import FilterStore from '../stores/filterStore';
 
 const styles = {
   root: {
@@ -39,6 +43,7 @@ class Question extends Component {
             <FilterMenu />
           </Grid>
           <Grid item xs={12} md={8} lg={10}>
+            {FilterStore.showAddQuestion && <AddQuestion />}
             <EditQuestion id={id} />
           </Grid>
         </Grid>

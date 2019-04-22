@@ -17,9 +17,6 @@ import LoadingError from '../components/LoadingError';
 // Services
 import QuestionService from '../services/questionService';
 
-// Stores
-import FilterStore from '../stores/filterStore';
-
 // Utils
 import History from '../utils/history';
 import DataTypes from '../utils/dataTypes';
