@@ -209,6 +209,7 @@ class AddQuestion extends Component {
 
           {/* Question */}
           <TextField
+            multiline
             variant="filled"
             className={classes.input}
             label="Question?"
