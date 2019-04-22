@@ -1,28 +1,35 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from "react";
+import { withRouter } from "react-router-dom";
+import CssBaseline from "@material-ui/core/CssBaseline";
+import { createMuiTheme, MuiThemeProvider } from "@material-ui/core/styles";
+import Blue from "@material-ui/core/colors/blue";
+
+// Routes
+import Routes from "./Routes";
+
+// Theme
+import "typeface-roboto";
+const theme = createMuiTheme({
+  typography: {
+    useNextVariants: true
+  },
+  palette: {
+    primary: Blue,
+    secondary: {
+      main: "#2196f3"
+    }
+  }
+});
 
 class App extends Component {
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
-      </div>
+      <MuiThemeProvider theme={theme}>
+        <CssBaseline />
+        <Routes />
+      </MuiThemeProvider>
     );
   }
 }
 
-export default App;
+export default withRouter(App);
