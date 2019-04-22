@@ -13,7 +13,12 @@ export default {
   getQuestion: id => api({ endpoint: `questions/${id}` }),
 
   /**
-   * Returns a specific question.
+   * Posts a question.
    */
   postQuestion: data => api({ method: 'POST', endpoint: 'questions', data }),
+
+  /**
+   * Puts a question.
+   */
+  putQuestion: ({ id, data }) => api({ method: 'PUT', endpoint: `questions/${id}`, data }),
 };

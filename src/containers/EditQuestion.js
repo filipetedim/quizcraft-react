@@ -42,8 +42,9 @@ const styles = {
   },
 };
 
-class AddQuestion extends Component {
+class EditQuestion extends Component {
   state = {
+    id: 0,
     loading: false,
     error: [],
     question: '',
@@ -62,12 +63,37 @@ class AddQuestion extends Component {
     wrong6: '',
   };
 
+  async componentWillReceiveProps(props) {
+    const { id } = props;
+    if (id === null || id === undefined) {
+      return;
+    }
+
+    this.setState({ loading: true, id });
+    await this.getQuestion(id);
+
+    setTimeout(() => {
+      this.setState({ loading: false });
+    }, Config.SPINNER_TIME);
+  }
+
   /**
-   * Adds new a question
+   * Loads a specific question.
    */
-  addQuestion = () => {
+  getQuestion = async id =>
+    await QuestionService.getQuestion(id)
+      .then(question => {
+        question.wrong.forEach((item, i) => this.setState({ ['wrong' + i]: item }));
+        this.setState({ ...question });
+      })
+      .catch(() => this.setState({ error: true }));
+
+  /**
+   * Updates a question
+   */
+  updateQuestion = () => {
     this.setState({ loading: true });
-    const { expansion, difficulty, type, category, question, answer } = this.state;
+    const { id, expansion, difficulty, type, category, question, answer } = this.state;
 
     const wrong = [];
     ['wrong0', 'wrong1', 'wrong2', 'wrong3', 'wrong4', 'wrong5', 'wrong6'].forEach(item => {
@@ -76,19 +102,21 @@ class AddQuestion extends Component {
       }
     });
 
-    QuestionService.postQuestion({
-      expansion,
-      difficulty,
-      type,
-      category,
-      question,
-      answer,
-      wrong,
+    QuestionService.putQuestion({
+      id,
+      data: {
+        expansion,
+        difficulty,
+        type,
+        category,
+        question,
+        answer,
+        wrong,
+      },
     })
       .then(() => {
         setTimeout(() => {
           History.push('/questions');
-          FilterStore.showAddQuestion = false;
         }, Config.SPINNER_TIME);
       })
       .catch(error => {
@@ -110,6 +138,7 @@ class AddQuestion extends Component {
   render() {
     const { classes } = this.props;
     const {
+      id,
       loading,
       error,
       question,
@@ -132,11 +161,11 @@ class AddQuestion extends Component {
         <CardHeader
           className={classes.header}
           action={
-            <IconButton onClick={() => (FilterStore.showAddQuestion = false)}>
+            <IconButton onClick={() => History.push('/questions')}>
               <Close />
             </IconButton>
           }
-          subheader="NEW QUESTION"
+          subheader={`EDIT QUESTION - ${id}`}
         />
         <CardContent>
           {/* Settings */}
@@ -288,8 +317,8 @@ class AddQuestion extends Component {
               />
             </Grid>
           </Grid>
-          <Button color="primary" variant="contained" onClick={this.addQuestion}>
-            Add new question
+          <Button color="primary" variant="contained" onClick={this.updateQuestion}>
+            Update question
           </Button>
           {error && error.map((item, i) => <LoadingError key={i} message={item.msg} />)}
         </CardContent>
@@ -299,4 +328,4 @@ class AddQuestion extends Component {
   }
 }
 
-export default withStyles(styles)(AddQuestion);
+export default withStyles(styles)(EditQuestion);

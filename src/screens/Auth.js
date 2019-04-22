@@ -38,7 +38,7 @@ class Auth extends Component {
 
   componentDidMount() {
     if (Cookie.get('qc-token')) {
-      History.push('/');
+      History.push('/questions');
     }
   }
 
@@ -48,7 +48,7 @@ class Auth extends Component {
     Cookie.set('qc-token', token);
 
     QuestionService.getQuestions()
-      .then(() => History.push('/'))
+      .then(() => History.push('/questions'))
       .catch(() => {
         Cookie.remove('qc-token');
 

@@ -9,6 +9,9 @@ import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import LinearProgress from '@material-ui/core/LinearProgress';
+import Collapse from '@material-ui/core/Collapse';
+import Create from '@material-ui/icons/Create';
+import IconButton from '@material-ui/core/IconButton';
 
 // Components
 import LoadingError from '../components/LoadingError';
@@ -20,6 +23,7 @@ import FilterStore from '../stores/filterStore';
 import QuestionService from '../services/questionService';
 
 // Utils
+import History from '../utils/history';
 import DataTypes from '../utils/dataTypes';
 import Config from '../utils/config';
 
@@ -33,6 +37,11 @@ const styles = theme => ({
   },
   tableCellLoading: {
     padding: '0 !important',
+  },
+  rowIcon: {
+    maxWidth: 48,
+    width: 48,
+    paddingRight: 5,
   },
 });
 
@@ -81,6 +90,11 @@ class QuestionTable extends Component {
    */
   handleChangeRowsPerPage = event => this.setState({ rowsPerPage: event.target.value });
 
+  /**
+   * Handles the row collapse
+   */
+  handleCollapse = prop => () => this.setState({ [prop]: !this.state[prop] });
+
   render() {
     const { classes } = this.props;
     const { loading, error, page, rowsPerPage, questions } = this.state;
@@ -123,6 +137,7 @@ class QuestionTable extends Component {
           <TableHead>
             <TableRow>
               <TableCell />
+              <TableCell />
               <TableCell align="right">Expansion</TableCell>
               <TableCell align="right">Difficulty</TableCell>
               <TableCell align="right">Question Type</TableCell>
@@ -138,9 +153,22 @@ class QuestionTable extends Component {
               </TableRow>
             )}
             {filtered.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(question => (
-              <TableRow key={question._id}>
+              <TableRow
+                hover
+                key={question._id}
+                onMouseEnter={this.handleCollapse('collapse' + question._id)}
+                onMouseLeave={this.handleCollapse('collapse' + question._id)}
+              >
+                <TableCell align="left" className={classes.rowIcon}>
+                  <IconButton onClick={() => History.push(`/questions/${question._id}`)}>
+                    <Create />
+                  </IconButton>
+                </TableCell>
                 <TableCell component="th" scope="row">
                   {question.question}
+                  <Collapse in={this.state['collapse' + question._id]} timeout="auto" unmountOnExit>
+                    A: {question.answer}
+                  </Collapse>
                 </TableCell>
                 <TableCell align="right">
                   {DataTypes.parseToObject(DataTypes.expansions)[question.expansion]}
